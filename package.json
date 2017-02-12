@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/metafetish/buttshock-et312-firmware-patcher-js#readme",
   "dependencies": {
-    "commander": "^2.9.0"
+    "commander": "^2.9.0",
+    "md5": "^2.2.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
