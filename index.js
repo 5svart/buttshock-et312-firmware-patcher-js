@@ -5,6 +5,7 @@ const fs = require('fs');
 args
   .version('0.0.1')
   .option('-f, --file <file>', 'firmware file to load')
+  .option('-p, --patch <file>', 'patch file to load')
   .parse(process.argv);
 
 if (args.file === undefined) {
@@ -14,4 +15,5 @@ if (args.file === undefined) {
 var bytes = fs.readFileSync(args.file);
 console.log(bytes.length);
 let p = new patcher.ButtshockFirmwarePatcher(bytes);
-
+var patch = fs.readFileSync(args.patch, 'ascii');
+p.applyPatches(patch);
