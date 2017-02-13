@@ -355,7 +355,8 @@ Disassembly of section .text:
     324e:	f4 e6       	ldi	r31, 0x64	; 100
     3250:	0e 94 b1 09 	call	0x1362	; 0x1362 <multiplyr30r31>
     3254:	ef 2f       	mov	r30, r31
-    3256:	0c 94 50 09 	jmp	0x12a0	; 0x12a0 <r26_is_random_number_between_0x8d_0x8e+0x748>`;
+    3256:	0c 94 50 09 	jmp	0x12a0	; 0x12a0 <r26_is_random_number_between_0x8d_0x8e+0x748>
+`;
 
 class ButtshockFirmwareUploaderApp {
 
@@ -386,7 +387,7 @@ class ButtshockFirmwareUploaderApp {
     var a = document.createElement("a");
     document.body.appendChild(a);
     a.style = "display: none";
-    var blob = new Blob(this.patcher.firmware, {type: "octet/stream"}),
+    var blob = new Blob([new Uint8Array(this.patcher.firmware)], {type: "application/octet-stream"}),
         url = window.URL.createObjectURL(blob);
     a.href = url;
     a.download = "312-16-m005-patched.bin";
