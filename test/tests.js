@@ -17,15 +17,27 @@ describe('ButtshockFirmwarePatcher Construction', function() {
 });
 
 describe('ButtshockFirmwarePatcher Firmware Enc/Dec/Patching Checks', function() {
-  // TODO: Fetch firmware!
-  let fw15 = fs.readFileSync('firmware/312-15.upg');
-  let fw16 = fs.readFileSync('firmware/312-16.upg');
   let FW16_MD5 = 'fc557679b91f4d59a95a83e0dbf3a4c8';
   let M005_MD5 = '7333170d4cfbfe18059dcfd9d1ebf415';
-  let bfp_enc = new bs.ButtshockFirmwarePatcher(fw16);
-  let decrypted_fw = bfp_enc.decrypt();
-  let bfp_dec = new bs.ButtshockFirmwarePatcher(decrypted_fw);
-  let encrypted_fw = bfp_dec.encrypt();
+  let fw15;
+  let fw16;
+  let bfp_enc;
+  let bfp_dec;
+  let decrypted_fw;
+  let encrypted_fw;
+
+  before(function(done) {
+    bs.ButtshockFirmwarePatcher.downloadFirmware().then(() => {
+      fw15 = fs.readFileSync('firmware/312-15.upg');
+      fw16 = fs.readFileSync('firmware/312-16.upg');
+      bfp_enc = new bs.ButtshockFirmwarePatcher(fw16);
+      decrypted_fw = bfp_enc.decrypt();
+      bfp_dec = new bs.ButtshockFirmwarePatcher(decrypted_fw);
+      encrypted_fw = bfp_dec.encrypt();
+      done();
+    });
+  });
+
   it('should create successfully and with the correct version on getting a v1.5 firmware', function () {
     expect(new bs.ButtshockFirmwarePatcher(fw15)).to.have.property('version', '1.5 Encrypted');
   });
