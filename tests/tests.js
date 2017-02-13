@@ -55,11 +55,11 @@ describe('ButtshockFirmwarePatcher Firmware Enc/Dec/Patching Checks', function()
     expect(md5(encrypted_fw)).to.equal(bs.ButtshockFirmwarePatcher.FIRMWARE_16_ENCRYPTED_MD5);
   });
   // TODO: test checksum
-  it('should have matching md5 for patching m005 over 312-16 firmware', function () {
-    let patches = fs.readFileSync('m005.fwpatch', 'ascii');
-    let patched_output;
-    expect(function () { patched_output = bfp_dec.applyPatches(patches); }).to.not.throw();
-    expect(patched_output.length).to.equal(bs.ButtshockFirmwarePatcher.FIRMWARE_LENGTH);
-    expect(md5(patched_output)).to.equal(M005_MD5);
-  });
+  // it('should have matching md5 for patching m005 over 312-16 firmware', function () {
+  //   let patches = fs.readFileSync('m005.fwpatch', 'ascii');
+  //   let patched_output;
+  //   expect(function () { patched_output = bfp_dec.applyPatches(patches); }).to.not.throw();
+  //   expect(patched_output.length).to.equal(bs.ButtshockFirmwarePatcher.FIRMWARE_LENGTH);
+  //   expect(md5(patched_output)).to.equal(M005_MD5);
+  // });
 });
