@@ -23,17 +23,15 @@ describe('ButtshockFirmwarePatcher Firmware Enc/Dec/Patching Checks', function()
   let fw16;
   let bfp_enc;
   let bfp_dec;
-  let decrypted_fw;
-  let encrypted_fw;
 
   before(function(done) {
     bs.ButtshockFirmwarePatcher.downloadFirmware().then(() => {
       fw15 = fs.readFileSync('firmware/312-15.upg');
       fw16 = fs.readFileSync('firmware/312-16.upg');
       bfp_enc = new bs.ButtshockFirmwarePatcher(fw16);
-      decrypted_fw = bfp_enc.decrypt();
-      bfp_dec = new bs.ButtshockFirmwarePatcher(decrypted_fw);
-      encrypted_fw = bfp_dec.encrypt();
+      bfp_enc.decrypt();
+      bfp_dec = new bs.ButtshockFirmwarePatcher(bfp_enc.firmware);
+      bfp_dec.encrypt();
       done();
     });
   });
@@ -46,13 +44,13 @@ describe('ButtshockFirmwarePatcher Firmware Enc/Dec/Patching Checks', function()
   });
   it('should have matching md5 for decrypted 312-16 firmware', function() {
     expect(bfp_enc).to.have.property('version', '1.6 Encrypted');
-    expect(decrypted_fw.length).to.equal(bs.ButtshockFirmwarePatcher.FIRMWARE_LENGTH);
-    expect(md5(decrypted_fw)).to.equal(FW16_MD5);
+    expect(bfp_enc.firmware.length).to.equal(bs.ButtshockFirmwarePatcher.FIRMWARE_LENGTH);
+    expect(md5(bfp_enc.firmware)).to.equal(FW16_MD5);
   });
   it('should have matching md5 for reencryption of decrypted 312-16 firmware', function() {
     expect(bfp_dec).to.have.property('version', 'unknown');
-    expect(encrypted_fw.length).to.equal(bs.ButtshockFirmwarePatcher.FIRMWARE_LENGTH);
-    expect(md5(encrypted_fw)).to.equal(bs.ButtshockFirmwarePatcher.FIRMWARE_16_ENCRYPTED_MD5);
+    expect(bfp_dec.firmware.length).to.equal(bs.ButtshockFirmwarePatcher.FIRMWARE_LENGTH);
+    expect(md5(bfp_dec.firmware)).to.equal(bs.ButtshockFirmwarePatcher.FIRMWARE_16_ENCRYPTED_MD5);
   });
   // TODO: test checksum
   // it('should have matching md5 for patching m005 over 312-16 firmware', function () {
