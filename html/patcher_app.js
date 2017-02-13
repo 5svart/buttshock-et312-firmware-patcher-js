@@ -383,6 +383,15 @@ class ButtshockFirmwareUploaderApp {
   }
 
   download() {
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    var blob = new Blob(this.patcher.firmware, {type: "octet/stream"}),
+        url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = "312-16-m005-patched.bin";
+    a.click();
+    window.URL.revokeObjectURL(url);
   }
 }
 
