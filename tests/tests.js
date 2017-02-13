@@ -52,8 +52,8 @@ describe('ButtshockFirmwarePatcher Firmware Enc/Dec/Patching Checks', function()
   it('should have matching md5 for patching m005 over 312-16 firmware', function () {
     let bfp = new bs.ButtshockFirmwarePatcher(fw16);
     bfp.decrypt();
-    let patches = fs.readFileSync('m005.fwpatch', 'ascii');
-    expect(function () { bfp.patch(patches); }).to.not.throw();
+    let m005 = fs.readFileSync('patches/m005.fwpatch', 'ascii');
+    expect(function () { bfp.patch(m005); }).to.not.throw();
     expect(bfp.firmware.length).to.equal(bs.ButtshockFirmwarePatcher.FIRMWARE_LENGTH);
     expect(md5(bfp.firmware)).to.equal(M005_MD5);
   });
