@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "generate-docs": "node_modules/.bin/jsdoc --configure doc/conf.json --verbose",
-    "test": "mocha test/",
+    "test": "mocha tests/",
     "test-travis": "istanbul cover _mocha -- tests/ && codeclimate-test-reporter < coverage/lcov.info"
   },
   "repository": {
